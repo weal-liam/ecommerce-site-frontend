@@ -1,13 +1,29 @@
 'use client'
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LoginForm from "@/components/login-form";
 import SignupForm from "@/components/signup-form";
 import Footer from "./Footer";
 import SiteLogo from "./SiteLogo";
+import { getUser } from '@/context/UserContext';
+import { useRouter } from 'next/navigation';
 
 export default function Page() {
   const [activeTab, setActiveTab] = useState<"login" | "signup">("login");
+  
+  const router = useRouter();
+  
+  const { user } = getUser();
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (user?.is_active) {
+        router.push('/mart');
+      }
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [user, router]);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen gap-[20px]">

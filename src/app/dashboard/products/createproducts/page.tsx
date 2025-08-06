@@ -43,25 +43,40 @@ export default function Page() {
 
     
     const handleSubmit = async() => {
+        if (activeTab === "large") {
             if (!file) {
                 setMessage('Please select a JSON file.');
                 return;
-               }
-            try{
-                await Axios.post('products/',(file===null || activeTab !=='large')?form:file);
-                alert('Inventory updated!');
-                setForm({
-                name : '',
-                price : '',
-                image : null,
-                image_url: '',
-                description : '',
-                category : '',
-                })
-            }catch(err){
-                alert('Failed to update inventory due to: ' + err);
-                alert(message)
             }
+            const formData = new FormData();
+            formData.append("file", file);
+            try {
+                await Axios.post('products/', formData, {
+                headers: { "Content-Type": "multipart/form-data" }
+                });
+                alert('Inventory updated!');
+                setFile(null);
+            } catch (err) {
+                alert('Failed to update inventory due to: ' + err);
+            }
+        return;
+        }
+        if (activeTab === "single") {
+          try {
+                await Axios.post('products/', form);
+                alert('Product created!');
+                setForm({
+                    name: '',
+                    price: '',
+                    image: null,
+                    image_url: '',
+                    description: '',
+                    category: '',
+                });
+            } catch (err) {
+                alert('Failed to create product due to: ' + err);
+            }
+}
         };
 
         return (
@@ -106,7 +121,7 @@ export default function Page() {
                 ))}
             </select>
             <div className="mb-4">
-
+			{`${message}`}
             </div>
             <button onClick={handleSubmit} className="bg-stone-600 text-white px-4 py-2 rounded">
                 Create Product

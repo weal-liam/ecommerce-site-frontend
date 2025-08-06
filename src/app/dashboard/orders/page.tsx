@@ -14,7 +14,7 @@ export default function Page() {
     useEffect(()=>{
         Axios.get('orders/')
         .then((response)=>{
-            setOrders(response.data);
+            setOrders(response.data['total_orders']);
         })
         .catch((err)=>{
             console.log("Fetching orders failed due to: ",err);

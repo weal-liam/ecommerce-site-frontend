@@ -5,6 +5,7 @@ import Axios from "@/utils/api/axios";
 import { CheckBadgeIcon, ChevronDownIcon, UserIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import  Link  from 'next/link';
 
 
 export default function Page(){
@@ -35,7 +36,20 @@ export default function Page(){
 
     return(
         <div className=''>
-            <div className="flex gap-[20px] justify-self-start items-center mb-4"><UserIcon className="w-13 h-13"/><h1 className="font-bold text-2xl">Your Proifle</h1></div>
+            <div className="flex gap-[20px] justify-between items-center mb-4">
+                <div className="flex items-center gap-[20px]">
+                    <UserIcon className="w-13 h-13"/>
+                    <h1 className="font-bold text-2xl">Your Profile</h1>
+                </div>
+                {user && user.is_admin && (
+                    <Link
+                        href={pathname.startsWith('/mart') ? '/dashboard' : '/mart'}
+                        className='border p-2 rounded text-xl text-red-500'
+                    >
+                        {pathname.startsWith('/mart') ? 'To Dashboard' : 'To Mart'}
+                    </Link>
+                )}
+            </div>
             {user && 
 			<>
 				<div className="w-full m-4 p-6 justify-self-center grid grid-rows-[20px_20px_20px] gap-[20px] shadow ">
@@ -73,7 +87,7 @@ export default function Page(){
 										key={`${payment.id}-${payment.amount}`}
 										className="flex justify-between mb-2 bg-white p-4 rounded shadow text-stone-800"
 									>
-										<h3>ID: {payment.session_id}</h3>
+										<h3>ID:{payment.session_id}</h3>
 										<p>{`@-${payment.paid_at}`}</p>
 										<div>Amount: {payment.amount}</div>
 									</div>

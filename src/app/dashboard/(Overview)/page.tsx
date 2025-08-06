@@ -16,7 +16,6 @@ export default function Page(){
             Axios.get('/analytics/stats/')
             .then((response)=>{
                 setData(response.data['admin_data']);
-				console.log(response.data);
             })
     },[])
 

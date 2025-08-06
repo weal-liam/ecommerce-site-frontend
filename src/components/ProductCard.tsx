@@ -5,8 +5,7 @@ import  Axios  from '@/utils/api/axios'
 import { useParams, usePathname } from "next/navigation";
 import { Product } from "@/types/definitions";
 import { useCart } from "@/context/CartContext";
-
-
+import Image from "next/image";
 
 export default function ProductCard() {
     const {id} = useParams();
@@ -27,9 +26,17 @@ export default function ProductCard() {
     return (
         <>  
 		<div className="flex flex-col items-center">
-            <h1 style={{textTransform:'capitalize',}} className="text-xl">{product.name}</h1>
+            <h1 style={{textTransform:'capitalize'}} className="text-xl">{product.name}</h1>
             {product.display_image && (
-              <img src={product.display_image} alt={product.name} className="w-full" />
+              <div className="relative w-full max-w-xs h-[400px]">
+                <Image
+                  src={product.display_image}
+                  alt={product.name}
+                  fill
+                  className="object-contain rounded"
+                  onError={(e) => { (e.currentTarget as HTMLImageElement).src = "/maverick_mart.png"; }}
+                />
+              </div>
             )}
             <strong>${product.price}</strong>
             <p>{product.description}</p>

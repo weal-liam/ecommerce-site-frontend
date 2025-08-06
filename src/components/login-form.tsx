@@ -1,3 +1,5 @@
+'use client';
+
 import {
   UserIcon,
   AtSymbolIcon,
@@ -16,7 +18,7 @@ export default function LoginForm() {
   
     //const [error, setError] = useState("");
 
-    const { user , login } = getUser();
+    const { login } = getUser();
   
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setForm({ ...form, [e.target.name]: e.target.value });
@@ -25,13 +27,8 @@ export default function LoginForm() {
     const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
       login(form);
-	  setTimeout(()=>{
-		  if(user && user.is_admin){
-			window.location.href = '/dashboard';
-			}else{
-			window.location.href = '/mart';
-		    }},1000)
     }
+
 	
   return (
     <form className="max-w-sm mx-auto mt-12 space-y-3" method='post'>

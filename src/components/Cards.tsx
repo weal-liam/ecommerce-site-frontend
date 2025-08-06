@@ -29,6 +29,7 @@ export default function CardWrapper(data: { pathname: any; data: any; }) {
 		   <>
         <Card title="Unpaid orders" value={stats['pending orders']} type="pending" />
         <Card title="Total Customers" value={stats['customers']} type="customers" />
+        <Card title="Possible Visitors" value={stats['visitors']} type="customers" />
         <Card title="Total week's revenue" value={stats['revenue(last 7 days)']} type="expenditure" />
         <Card title="Total Stock" value={stats['total stock']} type="stock"/>
 		   </> 

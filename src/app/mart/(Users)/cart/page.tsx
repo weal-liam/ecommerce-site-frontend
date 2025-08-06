@@ -16,28 +16,37 @@ export default function Page() {
 
     const { addNotifications } = getUser();
 
-    useEffect(() => {
-        if (sessionId) {
-                Axios.get(`/payments/confirm?session_id=${sessionId}`).then((response) => {
-                if (response.data.status === 'paid') {
-                    setConfirmed(true);
-					revealOrderId(response.data.order_id);
-					console.log(response.data);
-                }else {
-                    addNotifications('Payment failed or not completed.');
-                }
-                })
-        }
-    }, [revealOrderId, addNotifications, sessionId]);
-	
 	useEffect(() => {
-        if (sessionId && confirmed && orderId !== 0) {
-				        Axios.put(`/orders/${orderId}`,{status : 'paid'})
-					    .then(()=>{
-						    addNotifications('Payment successful!');
-			            });
-                    }
-	}, [addNotifications, sessionId, confirmed, orderId]);
+	  if (!sessionId || confirmed) return;
+
+	  Axios.get(`/payments/confirm?session_id=${sessionId}`)
+		.then((response) => {
+		  if (response.data.status === 'paid') {
+			setConfirmed(true);
+			revealOrderId(response.data.order_id);
+			console.log(response.data);
+		  } else {
+			addNotifications('Payment failed or not completed.');
+		  }
+		})
+		.catch((error) => {
+		  console.error("Payment confirmation failed:", error);
+		});
+	}, [sessionId, confirmed, revealOrderId, addNotifications]);
+
+	useEffect(() => {
+	  if (!sessionId || !confirmed || orderId === 0) return;
+
+	  Axios.put(`/orders/${orderId}`, { status: 'paid' })
+		.then(() => {
+		  addNotifications('Payment successful!');
+		  revealOrderId(0); // Reset to avoid re-trigger
+		})
+		.catch((error) => {
+		  console.error("Order update failed:", error);
+		});
+	}, [sessionId, confirmed, orderId, addNotifications, revealOrderId]);
+
 
     const total = cart.reduce((sum,item)=> sum + Number(item.product.price)*item.quantity,0);
 

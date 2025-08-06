@@ -8,11 +8,12 @@ export default function SalesChart() {
   const [chartData, setChartData] = useState<any[]>([]);
 
   useEffect(() => {
-    axios.get<Order[]>('/orders/')
+    axios.get('orders/')
       .then(res => {
         const grouped : {[key : string] : any } = {};
 
-        res.data.forEach(order => {
+        const data: Order[] = res.data['total_orders'];
+		data.forEach(order => {
           const date  = new Date(order.created_at).toISOString().slice(0, 10);
           grouped[date] = (grouped[date] || 0) + parseFloat(String(order.total_price));
         });

@@ -15,6 +15,7 @@ export default function Page() {
         Axios.get('orders/')
         .then((response)=>{
             setOrders(response.data['my_orders']);
+            console.log(response.data);
         })
         .catch((err)=>{
             console.log("Fetching orders failed due to: ",err);

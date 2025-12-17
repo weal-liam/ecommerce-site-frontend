@@ -33,8 +33,9 @@ export default function ProductCard() {
                   src={product.display_image}
                   alt={product.name}
                   fill
+                  unoptimized
                   className="object-contain rounded"
-                  onError={(e) => { (e.currentTarget as HTMLImageElement).src = "/maverick_mart.png"; }}
+                  onError={(e) => { (e.currentTarget as HTMLImageElement).src = "/maverick_cart.png"; }}
                 />
               </div>
             )}

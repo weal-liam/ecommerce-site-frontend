@@ -71,6 +71,7 @@ export default function ProductsSheet() {
                 alt={product.name}
                 width={220}
                 height={220}
+                unoptimized
                 className="object-contain"
                 onError={(e) => {
                   e.currentTarget.src = '/maverick_cart.png'; 

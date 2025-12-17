@@ -22,7 +22,7 @@ export default function Page(){
         }).then(()=>{
             Axios.get('/payments/')
             .then((response)=>{
-				setPaymentData(response.data['My Payments']);
+				setPaymentData(response.data['My Payments'] || response.data);
             })
         }).catch((err)=>{
             console.error("Fetching payments failed due to: ",err);

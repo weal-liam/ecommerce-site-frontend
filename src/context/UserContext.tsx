@@ -52,6 +52,7 @@ export const UserProvider = ({ children }:{children : ReactNode}) => {
     const fetchUser = async(user: any) => {
         const res = await Axios.post('/users/login/',user);
         setUser(res.data.user);
+        console.log(res)
 		addNotifications('logged in successfully')
     }
 

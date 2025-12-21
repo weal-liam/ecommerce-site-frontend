@@ -2,7 +2,7 @@ import axios from 'axios';
 import getOrCreateSessionkey from '../session';
 
 const Axios = axios.create({
-  baseURL: 'http://localhost:8000/api',
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
 })
 
 Axios.interceptors.request.use((config)=>{
